@@ -1,0 +1,106 @@
+# clinic_market_tool 大阪DB Streamlitアプリ
+
+## 概要
+
+大阪府の医療機関DB `clinic_market_analysis_ready_osaka.csv` を読み込み、既存クリニックの近隣競合分析を確認するためのStreamlitアプリです。
+
+## 作成日
+
+20260603_033453
+
+## 重要ファイル
+
+元データ：
+
+```text
+/content/gdrive/MyDrive/clinic_market_tool/features/osaka/clinic_market_analysis_ready_osaka.csv
+```
+
+アプリ：
+
+```text
+/content/gdrive/MyDrive/clinic_market_tool/app_streamlit_osaka/app.py
+```
+
+## ローカルColabで試す場合
+
+Colab上で以下を実行：
+
+```python
+!pip install streamlit
+!streamlit run /content/gdrive/MyDrive/clinic_market_tool/app_streamlit_osaka/app.py
+```
+
+Colabでは外部公開に `localtunnel` 等が必要な場合があります。
+
+## Renderに載せる場合
+
+このフォルダをGitHubリポジトリへコピーして、RenderでWeb Serviceとして作成。
+
+必要ファイル：
+
+```text
+app.py
+requirements.txt
+render.yaml
+```
+
+## 注意点
+
+現時点ではGoogle Drive上のCSVを直接読む前提です。
+
+Render環境では `/content/gdrive/...` が存在しないため、以下どちらかが必要です。
+
+### 方法A：CSVをアプリの `data/` フォルダに同梱
+
+```text
+app_streamlit_osaka/data/clinic_market_analysis_ready_osaka.csv
+```
+
+### 方法B：環境変数でCSVパスを指定
+
+```text
+OSAKA_MARKET_READY_CSV
+```
+
+ただしRenderではDriveマウントがないため、現実的には方法Aが簡単です。
+
+## 次の推奨工程
+
+OSAKA-15で、Render用に `data/clinic_market_analysis_ready_osaka.csv` を同梱するコピー処理を作る。
+
+
+---
+
+## OSAKA-15 追記：Render用CSV同梱完了
+
+作成日時：20260603_033706
+
+以下のCSVをアプリ配下へコピー済みです。
+
+```text
+app_streamlit_osaka/data/clinic_market_analysis_ready_osaka.csv
+```
+
+そのため、GitHubへアップロードする対象は以下です。
+
+```text
+app.py
+requirements.txt
+render.yaml
+README_deploy_osaka_app.md
+data/clinic_market_analysis_ready_osaka.csv
+```
+
+Renderでは `app.py` がまず環境変数 `OSAKA_MARKET_READY_CSV` を見に行きます。
+見つからない場合は、自動で以下を読みます。
+
+```text
+data/clinic_market_analysis_ready_osaka.csv
+```
+
+今回の同梱CSV行数：
+
+```text
+8840
+```
